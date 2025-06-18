@@ -1,5 +1,0 @@
-fn main() {
-    let s1 = String::from("Clone Me");
-    let s2 = s1.clone(); // duplikasi isi, bukan pindah
-    println!("s1: {}, s2: {}", s1, s2);
-}
