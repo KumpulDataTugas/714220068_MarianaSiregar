@@ -1,0 +1,95 @@
+📌 1. Pengertian Dasar
+
+🔹 File Utama (Main File)
+
+Adalah file dengan fungsi utama `fn main()`, yang merupakan titik masuk (entry point) dari program Rust. Ketika kamu menjalankan `cargo run`, Rust akan mengeksekusi file ini.
+
+Contoh:
+
+```rust
+// src/main.rs
+fn main() {
+    println!("Ini program utama");
+}
+
+
+🔹 Library (Pustaka)
+
+Adalah kumpulan fungsi, modul, atau struct yang **tidak memiliki `main()`**, dan digunakan **untuk digunakan oleh file lain atau project lain**. Library bersifat reusable.
+
+Contoh:
+
+```rust
+// src/lib.rs
+pub fn sapa() {
+    println!("Halo dari library!");
+}
+
+🔍 2. Perbedaan Utama
+
+| Perbedaan                | Main File (`main.rs`)                       | Library File (`lib.rs`)                            |
+| ------------------------ | ------------------------------------------- | -------------------------------------------------- |
+| 🎯 Tujuan                | Sebagai aplikasi utama / program executable | Sebagai pustaka yang bisa digunakan oleh file lain |
+| 📁 Lokasi default        | `src/main.rs`                               | `src/lib.rs`                                       |
+| 🚀 Eksekusi langsung     | Bisa dijalankan dengan `cargo run`          | Tidak bisa langsung dijalankan                     |
+| 🧠 Fungsi utama          | Harus punya `fn main()`                     | Tidak punya `main()`, hanya modul/fungsi/struct    |
+| 🧩 Dapat digunakan ulang | Tidak dibuat untuk dipakai ulang            | Bisa dipanggil dari program lain atau di-publish   |
+| 📦 Output Cargo          | File binary (executable)                    | File crate/library                                 |
+
+
+🧪 3. Contoh Kombinasi Main dan Library**
+
+Kamu bisa memisahkan logika ke dalam library dan memanggilnya dari main.
+
+➕ `src/lib.rs`
+
+```rust
+pub fn tambah(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+
+➕ `src/main.rs`
+
+```rust
+use myproject::tambah; // asumsikan nama project = myproject
+
+fn main() {
+    let hasil = tambah(3, 4);
+    println!("Hasil: {}", hasil);
+}
+
+Kelebihannya:
+✅ Struktur kode jadi rapi
+✅ Fungsi bisa diuji (`unit test`) tanpa mengubah file utama
+✅ Kode bisa direuse (digunakan di CLI, GUI, atau Web API)
+
+📦 4. Tipe Proyek Rust
+
+Saat membuat proyek dengan Cargo, kamu bisa pilih:
+
+```bash
+cargo new nama_project --bin    # untuk aplikasi utama (dengan main.rs)
+cargo new nama_library --lib    # untuk pustaka/library (dengan lib.rs)
+```
+
+
+📚 5. Kapan Gunakan Main dan Kapan Gunakan Library?
+
+| Skenario                                  | Gunakan `main.rs` | Gunakan `lib.rs` |
+| ----------------------------------------- | ----------------- | ---------------- |
+| Menulis aplikasi CLI atau web backend     | ✅                 | (untuk helper)   |
+| Ingin menjalankan program secara langsung | ✅                 | ❌                |
+| Ingin memecah fungsi jadi modul terpisah  | ✅ + lib.rs        | ✅                |
+| Ingin membuat crate/library reusable      | ❌                 | ✅                |
+| Ingin testing fungsi secara modular       | ✅ + lib.rs        | ✅                |
+
+
+✅ Kesimpulan
+
+| Main File (`main.rs`)                    | Library (`lib.rs`)                           |
+| ---------------------------------------- | -------------------------------------------- |
+| Untuk menjalankan aplikasi               | Untuk menyediakan fungsi/modul yang reusable |
+| Punya fungsi `fn main()`                 | Tidak punya `main`, hanya fungsi/modul       |
+| Bisa dieksekusi (`cargo run`)            | Tidak bisa dieksekusi langsung               |
+| Tidak cocok untuk dipakai lintas project | Cocok untuk crate reusable dan testing       |
